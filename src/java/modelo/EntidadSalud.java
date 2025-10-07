@@ -13,12 +13,14 @@ public class EntidadSalud {
     private String nombre;
     private String pais;
     private String ciudad;
+    private Usuario usuario;
 
-    public EntidadSalud(int id, String nombre, String pais, String ciudad) {
+    public EntidadSalud(int id, String nombre, String pais, String ciudad, Usuario usuario) {
         this.id = id;
         this.nombre = nombre;
         this.pais = pais;
         this.ciudad = ciudad;
+        this.usuario = usuario;
     }
 
     /**
@@ -69,6 +71,12 @@ public class EntidadSalud {
     public void setCiudad(String ciudad) {
         this.ciudad = ciudad;
     }
-    
-    
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
 }
