@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import modelo.Campaña;
 import java.util.logging.Logger;
 import java.util.logging.Level;
+import modelo.Comentario;
+import modelo.Donacion;
+import modelo.Tratamiento;
 import modelo.Usuario;
 
 /**
@@ -21,30 +24,22 @@ public class CampañaMapper {
     public CampañaMapper() {
     }
     
-    public static Campaña toCampaña(ResultSet row){
+    public static Campaña toCampaña(ResultSet row, Usuario usuario, ArrayList<Donacion> donaciones, ArrayList<Comentario> comentarios, ArrayList<Tratamiento> tratamientos){
         try{
-            return new Campaña(
+            Campaña campaña = new Campaña(
                     row.getInt("id"),
                     row.getString("titulo"),
                     row.getString("descripcion"),
                     LocalDateTime.parse(row.getString("fechaInicio")),
-                    new Usuario(row.getLong("idDonatario"))
+                    usuario
             );
+            campaña.setDonaciones(donaciones);
+            campaña.setComentarios(comentarios);
+            campaña.setTratamientos(tratamientos);
+            return campaña;
         } catch (SQLException ex){
             Logger.getLogger(CampañaMapper.class.getName()).log(Level.SEVERE,null,ex);
         }
         return null;
-    }
-    
-    public static ArrayList<Campaña> toListCampaña(ResultSet rs){
-        ArrayList<Campaña> campañas = new ArrayList<>();
-        try{
-            do{
-                campañas.add(toCampaña(rs));
-            } while (rs.next());
-        } catch (SQLException ex){
-            Logger.getLogger(CampañaMapper.class.getName()).log(Level.SEVERE,null,ex);
-        }
-        return campañas;
     }
 }

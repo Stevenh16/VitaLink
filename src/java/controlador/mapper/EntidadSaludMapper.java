@@ -8,7 +8,6 @@ import modelo.EntidadSalud;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.sql.*;
-import java.util.ArrayList;
 import modelo.Usuario;
 
 /**
@@ -20,22 +19,18 @@ public class EntidadSaludMapper {
     public EntidadSaludMapper() {
     }
     
-    public static EntidadSalud toEntidadSalud(ResultSet row){
+    public static EntidadSalud toEntidadSalud(ResultSet row, Usuario usuario){
         try {
             return new EntidadSalud(
                     row.getInt("id"),
                     row.getString("nombre"),
                     row.getString("pais"),
                     row.getString("ciudad"),
-                    new Usuario(row.getLong("idGerente"))
+                    usuario
             );
         } catch (SQLException ex) {
             Logger.getLogger(EntidadSaludMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    }
-    
-    public static ArrayList<EntidadSalud> toListEntidadSalud(ResultSet rs){
-        
     }
 }

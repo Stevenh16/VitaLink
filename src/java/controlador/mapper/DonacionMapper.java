@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import modelo.Campaña;
 import modelo.TipoDonacion;
 import modelo.Usuario;
@@ -23,31 +22,19 @@ public class DonacionMapper {
     public DonacionMapper() {
     }
     
-    public static Donacion toDonacion(ResultSet row){
+    public static Donacion toDonacion(ResultSet row, Campaña campaña, Usuario usuario){
         try{
             return new Donacion(
                     row.getInt("id"),
                     TipoDonacion.valueOf(row.getString("tipo")),
                     row.getString("monto"),
                     LocalDateTime.parse(row.getString("fecha")),
-                    new Campaña(row.getInt("idCampaña")),
-                    new Usuario(row.getLong("idDonante"))
+                    campaña,
+                    usuario
             );
         } catch (SQLException ex){
             Logger.getLogger(DonacionMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    }
-    
-    public static ArrayList<Donacion> toListDonacion(ResultSet rs){
-        ArrayList<Donacion> donaciones = new ArrayList<>();
-        try {
-            do {
-                donaciones.add(toDonacion(rs));
-            } while(rs.next());
-        } catch (SQLException ex) {
-            Logger.getLogger(ComentarioMapper.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return donaciones;
     }
 }
