@@ -13,11 +13,22 @@ import java.time.LocalDateTime;
 public class Verificacion {
     private final int id;
     private LocalDateTime fecha;
+    private Campaña campaña;
 
-    public Verificacion(int id, LocalDateTime fecha) {
+    public Verificacion(int id, LocalDateTime fecha, Campaña campaña) {
         this.id = id;
         this.fecha = fecha;
+        this.campaña = campaña;
     }
+
+    public Campaña getCampaña() {
+        return campaña;
+    }
+
+    public void setCampaña(Campaña campaña) {
+        this.campaña = campaña;
+    }
+
 
     /**
      * @return the id

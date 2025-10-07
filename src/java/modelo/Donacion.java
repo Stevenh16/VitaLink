@@ -16,13 +16,15 @@ public class Donacion {
     private String cantidad;
     private LocalDateTime fecha;
     private Campaña campaña;
+    private Usuario donante;
 
-    public Donacion(int id, TipoDonacion tipo, String cantidad, LocalDateTime fecha, Campaña campaña) {
+    public Donacion(int id, TipoDonacion tipo, String cantidad, LocalDateTime fecha, Campaña campaña, Usuario donante) {
         this.id = id;
         this.tipo = tipo;
         this.cantidad = cantidad;
         this.fecha = fecha;
         this.campaña = campaña;
+        this.donante = donante;
     }
 
     /**
@@ -86,6 +88,14 @@ public class Donacion {
      */
     public void setCampaña(Campaña campaña) {
         this.campaña = campaña;
+    }
+
+    public Usuario getDonante() {
+        return donante;
+    }
+
+    public void setDonante(Usuario donante) {
+        this.donante = donante;
     }
     
     

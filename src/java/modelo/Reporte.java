@@ -17,6 +17,14 @@ public class Reporte {
     private Campaña campaña;
     private Usuario usuario;
 
+    public Reporte(int id, String contenido, LocalDateTime fecha, Campaña campaña, Usuario usuario) {
+        this.id = id;
+        this.contenido = contenido;
+        this.fecha = fecha;
+        this.campaña = campaña;
+        this.usuario = usuario;
+    }
+
     /**
      * @return the id
      */

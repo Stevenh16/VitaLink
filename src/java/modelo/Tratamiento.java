@@ -12,11 +12,13 @@ public class Tratamiento {
     private final int id;
     private String nombre;
     private String descripcion;
+    private EntidadSalud entidadSalud;
 
-    public Tratamiento(int id, String nombre, String descripcion) {
+    public Tratamiento(int id, String nombre, String descripcion, EntidadSalud entidadSalud) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
+        this.entidadSalud = entidadSalud;
     }
 
     /**
@@ -53,6 +55,12 @@ public class Tratamiento {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-    
-    
+
+    public EntidadSalud getEntidadSalud() {
+        return entidadSalud;
+    }
+
+    public void setEntidadSalud(EntidadSalud entidadSalud) {
+        this.entidadSalud = entidadSalud;
+    }
 }
