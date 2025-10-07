@@ -15,25 +15,38 @@ public class Campaña {
     private final int id;
     private String titulo;
     private String descripcion;
-    private LocalDateTime fecha;
+    private LocalDateTime fechaInicio;
+    private LocalDateTime fechaFin;
     private Usuario donatario;
     private ArrayList<Donacion> donaciones;
     private ArrayList<Comentario> comentarios;
     private ArrayList<Tratamiento> tratamientos;
 
-    public Campaña(int id, String titulo, String descripcion, LocalDateTime fecha, Usuario donatario) {
+    public Campaña(int id, String titulo, String descripcion, LocalDateTime fechaInicio, Usuario donatario) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
-        this.fecha = fecha;
+        this.fechaInicio = fechaInicio;
         this.donatario = donatario;
         donaciones = new ArrayList<>();
         comentarios = new ArrayList<>();
         tratamientos = new ArrayList<>();
     }
-    
-    public Campaña(int id) {
-        this.id = id;
+
+    public LocalDateTime getFechaInicio() {
+        return fechaInicio;
+    }
+
+    public void setFechaInicio(LocalDateTime fechaInicio) {
+        this.fechaInicio = fechaInicio;
+    }
+
+    public LocalDateTime getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(LocalDateTime fechaFin) {
+        this.fechaFin = fechaFin;
     }
 
     /**
@@ -70,21 +83,7 @@ public class Campaña {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
-
-    /**
-     * @return the fecha
-     */
-    public LocalDateTime getFecha() {
-        return fecha;
-    }
-
-    /**
-     * @param fecha the fecha to set
-     */
-    public void setFecha(LocalDateTime fecha) {
-        this.fecha = fecha;
-    }
-
+    
     /**
      * @return the donatario
      */
