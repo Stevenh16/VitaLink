@@ -20,7 +20,7 @@ public class UsuarioMapper {
     public UsuarioMapper() {
     }
     
-    public Usuario toUsuario(ResultSet row){
+    public static Usuario toUsuario(ResultSet row){
         try{
             return new Usuario(
                     Long.valueOf(row.getString("id")),
@@ -35,12 +35,12 @@ public class UsuarioMapper {
         return null;
     }
     
-    public ArrayList<Usuario> toListUsuarios(ResultSet rs){
+    public static ArrayList<Usuario> toListUsuarios(ResultSet rs){
         ArrayList<Usuario> usuarios = new ArrayList<>();
         try{
-            while(rs.next()){
+            do{
                 usuarios.add(toUsuario(rs));
-            }
+            } while(rs.next());
         } catch (SQLException ex) {
             Logger.getLogger(UsuarioMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
