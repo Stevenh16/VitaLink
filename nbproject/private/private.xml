@@ -12,6 +12,15 @@
             <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/register.html</file>
             <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/META-INF/context.xml</file>
             <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/controlador/mapper/UsuarioMapper.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/EntidadSalud.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Tratamiento.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Verificacion.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Comentario.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Donacion.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/TipoDonacion.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Campaña.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Reporte.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Notificacion.java</file>
         </group>
     </open-files>
 </project-private>
