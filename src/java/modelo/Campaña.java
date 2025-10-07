@@ -17,7 +17,6 @@ public class Campaña {
     private String descripcion;
     private LocalDateTime fecha;
     private Usuario donatario;
-    private Verificacion verificacion;
     private ArrayList<Donacion> donaciones;
     private ArrayList<Comentario> comentarios;
     private ArrayList<Tratamiento> tratamientos;
@@ -31,6 +30,10 @@ public class Campaña {
         donaciones = new ArrayList<>();
         comentarios = new ArrayList<>();
         tratamientos = new ArrayList<>();
+    }
+    
+    public Campaña(int id) {
+        this.id = id;
     }
 
     /**
@@ -95,21 +98,6 @@ public class Campaña {
     public void setDonatario(Usuario donatario) {
         this.donatario = donatario;
     }
-
-    /**
-     * @return the verificacion
-     */
-    public Verificacion getVerificacion() {
-        return verificacion;
-    }
-
-    /**
-     * @param verificacion the verificacion to set
-     */
-    public void setVerificacion(Verificacion verificacion) {
-        this.verificacion = verificacion;
-    }
-
     /**
      * @return the donaciones
      */
