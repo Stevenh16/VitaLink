@@ -12,13 +12,13 @@ import java.time.LocalDateTime;
  */
 public class Donacion {
     private final int id;
-    private TipoDonacion tipo;
+    private String tipo;
     private String cantidad;
     private LocalDateTime fecha;
     private Campaña campaña;
     private Usuario donante;
 
-    public Donacion(int id, TipoDonacion tipo, String cantidad, LocalDateTime fecha, Campaña campaña, Usuario donante) {
+    public Donacion(int id, String tipo, String cantidad, LocalDateTime fecha, Campaña campaña, Usuario donante) {
         this.id = id;
         this.tipo = tipo;
         this.cantidad = cantidad;
@@ -37,14 +37,14 @@ public class Donacion {
     /**
      * @return the tipo
      */
-    public TipoDonacion getTipo() {
+    public String getTipo() {
         return tipo;
     }
 
     /**
      * @param tipo the tipo to set
      */
-    public void setTipo(TipoDonacion tipo) {
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 

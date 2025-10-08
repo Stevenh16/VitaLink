@@ -15,6 +15,7 @@ public class Campaña {
     private final int id;
     private String titulo;
     private String descripcion;
+    private String estado;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
     private Usuario donatario;
@@ -22,10 +23,11 @@ public class Campaña {
     private ArrayList<Comentario> comentarios;
     private ArrayList<Tratamiento> tratamientos;
 
-    public Campaña(int id, String titulo, String descripcion, LocalDateTime fechaInicio, Usuario donatario) {
+    public Campaña(int id, String titulo, String descripcion, String estado, LocalDateTime fechaInicio, Usuario donatario) {
         this.id = id;
         this.titulo = titulo;
         this.descripcion = descripcion;
+        this.estado = estado;
         this.fechaInicio = fechaInicio;
         this.donatario = donatario;
         donaciones = new ArrayList<>();
@@ -138,6 +140,12 @@ public class Campaña {
     public void setTratamientos(ArrayList<Tratamiento> tratamientos) {
         this.tratamientos = tratamientos;
     }
-    
-    
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 }

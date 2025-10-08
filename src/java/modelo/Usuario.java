@@ -9,13 +9,13 @@ package modelo;
  * @author Steven
  */
 public class Usuario {
-    private final Long id;
-    private Rol rol;
+    private final int id;
+    private String rol;
     private String nombre;
     private String correo;
     private String contrasenia;
 
-    public Usuario(Long id, Rol rol, String nombre, String correo, String contrasenia) {
+    public Usuario(int id, String rol, String nombre, String correo, String contrasenia) {
         this.id = id;
         this.rol = rol;
         this.nombre = nombre;
@@ -31,7 +31,7 @@ public class Usuario {
     /**
      * @return the id
      */
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -80,24 +80,14 @@ public class Usuario {
     /**
      * @return the rol
      */
-    public Rol getRol() {
+    public String getRol() {
         return rol;
-    }
-    
-    public Long getIdRol(){
-        return switch (rol) {
-            case ADMINISTRADOR -> 1L;
-            case DONANTE -> 2L;
-            case DONATARIO -> 3L;
-            case GERENTESALUD -> 4L;
-            default -> 5L;
-        };
     }
 
     /**
      * @param rol the rol to set
      */
-    public void setRol(Rol rol) {
+    public void setRol(String rol) {
         this.rol = rol;
     }
     
