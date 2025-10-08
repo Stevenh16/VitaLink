@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 import modelo.Usuario;
 import java.sql.*;
 import java.util.ArrayList;
-import modelo.Rol;
 
 /**
  *
@@ -23,8 +22,8 @@ public class UsuarioMapper {
     public static Usuario toUsuario(ResultSet row){
         try{
             return new Usuario(
-                    Long.valueOf(row.getString("id")),
-                    Rol.valueOf(row.getString("rol")),
+                    row.getInt("id"),
+                    row.getString("rol"),
                     row.getString("nombre"),
                     row.getString("correo"),
                     row.getString("contrasenia")
