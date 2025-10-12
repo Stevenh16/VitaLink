@@ -13,7 +13,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import modelo.Rol;
 import modelo.Usuario;
 import repositorio.UsuarioRepositorio;
 
@@ -23,7 +22,7 @@ import repositorio.UsuarioRepositorio;
  */
 @WebServlet(name = "usuarioServlet", urlPatterns = {"/usuarioServlet"})
 public class UsuarioServlet extends HttpServlet {
-    public static Long id = 0L;
+    public static int id = 0;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -116,7 +115,7 @@ public class UsuarioServlet extends HttpServlet {
     private void register(HttpServletRequest request, HttpServletResponse response) {
         Usuario usuario = new Usuario(
                 id++,
-                Rol.DONATARIO,
+                request.getParameter("rol"),
                 request.getParameter("nombre"),
                 request.getParameter("correo"),
                 request.getParameter("contrasenia")
