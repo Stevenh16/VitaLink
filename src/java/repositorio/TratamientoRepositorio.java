@@ -4,7 +4,7 @@
  */
 package repositorio;
 
-import controlador.mapper.TratamientoMapper;
+import mapper.TratamientoMapper;
 import java.sql.*;
 import java.util.ArrayList;
 import modelo.EntidadSalud;

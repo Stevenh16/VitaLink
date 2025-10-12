@@ -4,7 +4,7 @@
  */
 package repositorio;
 
-import controlador.mapper.CampañaMapper;
+import mapper.CampañaMapper;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;

@@ -4,7 +4,7 @@
  */
 package repositorio;
 
-import controlador.mapper.UsuarioMapper;
+import mapper.UsuarioMapper;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;

@@ -4,7 +4,7 @@
  */
 package repositorio;
 
-import controlador.mapper.ComentarioMapper;
+import mapper.ComentarioMapper;
 import java.util.ArrayList;
 import modelo.Comentario;
 import java.sql.*;
