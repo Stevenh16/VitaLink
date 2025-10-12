@@ -3,24 +3,26 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/repositorio/UsuarioRepositorio.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Usuario.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Rol.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/controlador/UsuarioServlet.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/index.html</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/login.html</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/register.html</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/META-INF/context.xml</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/controlador/mapper/UsuarioMapper.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/controlador/mapper/DonacionMapper.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/controlador/mapper/CampañaMapper.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/controlador/mapper/EntidadSaludMapper.java</file>
             <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/EntidadSalud.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Tratamiento.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Verificacion.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/controlador/mapper/ComentarioMapper.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/controlador/mapper/UsuarioMapper.java</file>
             <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Comentario.java</file>
             <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Donacion.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/TipoDonacion.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Campaña.java</file>
             <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Reporte.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Notificacion.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Usuario.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/repositorio/UsuarioRepositorio.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/repositorio/CampañaRepositorio.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Campaña.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/controlador/mapper/ReporteMapper.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/controlador/mapper/TratamientoMapper.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Tratamiento.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/controlador/mapper/VerificacionMapper.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Verificacion.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/controlador/UsuarioServlet.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/repositorio/DonacionRepositorio.java</file>
         </group>
     </open-files>
 </project-private>
