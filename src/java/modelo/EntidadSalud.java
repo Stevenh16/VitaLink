@@ -25,6 +25,11 @@ public class EntidadSalud {
         this.usuario = usuario;
     }
 
+    @Override
+    public String toString() {
+        return "EntidadSalud{" + "id=" + id + ", nombre=" + nombre + ", pais=" + pais + ", ciudad=" + ciudad + ", tipo=" + tipo + ", usuario=" + usuario + '}';
+    }
+
     /**
      * @return the id
      */

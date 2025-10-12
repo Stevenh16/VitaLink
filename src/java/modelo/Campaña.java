@@ -35,6 +35,11 @@ public class Campaña {
         tratamientos = new ArrayList<>();
     }
 
+    @Override
+    public String toString() {
+        return "Campa\u00f1a{" + "id=" + id + ", titulo=" + titulo + ", descripcion=" + descripcion + ", estado=" + estado + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + ", donatario=" + donatario + ", donaciones=" + donaciones + ", comentarios=" + comentarios + ", tratamientos=" + tratamientos + '}';
+    }
+
     public LocalDateTime getFechaInicio() {
         return fechaInicio;
     }

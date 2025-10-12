@@ -23,6 +23,11 @@ public class Comentario {
         this.foto = foto;
     }
 
+    @Override
+    public String toString() {
+        return "Comentario{" + "id=" + id + ", fecha=" + fecha + ", contenido=" + contenido + ", foto=" + foto + '}';
+    }
+
     /**
      * @return the id
      */

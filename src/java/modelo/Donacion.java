@@ -27,6 +27,19 @@ public class Donacion {
         this.donante = donante;
     }
 
+    public Donacion(int id, String tipo, String cantidad, LocalDateTime fecha, Usuario donante) {
+        this.id = id;
+        this.tipo = tipo;
+        this.cantidad = cantidad;
+        this.fecha = fecha;
+        this.donante = donante;
+    }
+
+    @Override
+    public String toString() {
+        return "Donacion{" + "id=" + id + ", tipo=" + tipo + ", cantidad=" + cantidad + ", fecha=" + fecha + ", campa\u00f1a=" + campaña + ", donante=" + donante + '}';
+    }
+
     /**
      * @return the id
      */

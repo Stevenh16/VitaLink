@@ -13,12 +13,19 @@ import java.time.LocalDateTime;
 public class Verificacion {
     private final int id;
     private LocalDateTime fecha;
+    private Usuario gerente;
     private Campaña campaña;
 
-    public Verificacion(int id, LocalDateTime fecha, Campaña campaña) {
+    public Verificacion(int id, LocalDateTime fecha, Campaña campaña, Usuario gerente) {
         this.id = id;
         this.fecha = fecha;
         this.campaña = campaña;
+        this.gerente = gerente;
+    }
+
+    @Override
+    public String toString() {
+        return "Verificacion{" + "id=" + id + ", fecha=" + fecha + ", gerente=" + gerente + ", campa\u00f1a=" + campaña + '}';
     }
 
     public Campaña getCampaña() {
@@ -50,6 +57,13 @@ public class Verificacion {
     public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
-    
+
+    public Usuario getGerente() {
+        return gerente;
+    }
+
+    public void setGerente(Usuario gerente) {
+        this.gerente = gerente;
+    }
     
 }

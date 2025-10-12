@@ -21,6 +21,11 @@ public class Tratamiento {
         this.entidadSalud = entidadSalud;
     }
 
+    @Override
+    public String toString() {
+        return "Tratamiento{" + "id=" + id + ", nombre=" + nombre + ", descripcion=" + descripcion + ", entidadSalud=" + entidadSalud + '}';
+    }
+
     /**
      * @return the id
      */

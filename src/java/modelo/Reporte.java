@@ -25,6 +25,11 @@ public class Reporte {
         this.usuario = usuario;
     }
 
+    @Override
+    public String toString() {
+        return "Reporte{" + "id=" + id + ", contenido=" + contenido + ", fecha=" + fecha + ", campa\u00f1a=" + campaña + ", usuario=" + usuario + '}';
+    }
+
     /**
      * @return the id
      */
