@@ -4,34 +4,34 @@
  */
 package controlador.mapper;
 
-import modelo.EntidadSalud;
+import modelo.Reporte;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.sql.*;
+import java.time.LocalDateTime;
+import modelo.Campaña;
 import modelo.Usuario;
-
 /**
  *
  * @author Steven
  */
-public class EntidadSaludMapper {
+public class ReporteMapper {
 
-    public EntidadSaludMapper() {
+    public ReporteMapper() {
     }
     
-    public static EntidadSalud toEntidadSalud(ResultSet row, Usuario usuario){
+    public static Reporte toReporte(ResultSet row, Campaña campaña, Usuario usuario){
         try {
-            return new EntidadSalud(
+            return new Reporte(
                     row.getInt("id"),
-                    row.getString("nombre"),
-                    row.getString("pais"),
-                    row.getString("ciudad"),
-                    row.getString("tipo"),
+                    row.getString("contenido"),
+                    LocalDateTime.parse(row.getString("fecha")),
+                    campaña,
                     usuario
             );
         } catch (SQLException ex) {
-            Logger.getLogger(EntidadSaludMapper.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ReporteMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
-    }
+    } 
 }

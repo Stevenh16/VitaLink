@@ -30,10 +30,13 @@ public class CampañaMapper {
                     row.getInt("id"),
                     row.getString("titulo"),
                     row.getString("descripcion"),
+                    row.getString("estado"),
                     LocalDateTime.parse(row.getString("fechaInicio")),
                     usuario
             );
-            campaña.setDonaciones(donaciones);
+            if(donaciones!=null){
+                campaña.setDonaciones(donaciones);
+            }
             campaña.setComentarios(comentarios);
             campaña.setTratamientos(tratamientos);
             return campaña;
@@ -42,4 +45,5 @@ public class CampañaMapper {
         }
         return null;
     }
+    
 }

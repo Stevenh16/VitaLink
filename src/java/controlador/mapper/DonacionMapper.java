@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.sql.*;
 import java.time.LocalDateTime;
 import modelo.Campaña;
-import modelo.TipoDonacion;
 import modelo.Usuario;
 
 /**
@@ -24,14 +23,24 @@ public class DonacionMapper {
     
     public static Donacion toDonacion(ResultSet row, Campaña campaña, Usuario usuario){
         try{
-            return new Donacion(
+            if (campaña != null) {
+                return new Donacion(
                     row.getInt("id"),
-                    TipoDonacion.valueOf(row.getString("tipo")),
+                    row.getString("tipo"),
                     row.getString("monto"),
                     LocalDateTime.parse(row.getString("fecha")),
                     campaña,
                     usuario
-            );
+                );
+            } else {
+                return new Donacion(
+                    row.getInt("id"),
+                    row.getString("tipo"),
+                    row.getString("monto"),
+                    LocalDateTime.parse(row.getString("fecha")),
+                    usuario
+                );
+            }
         } catch (SQLException ex){
             Logger.getLogger(DonacionMapper.class.getName()).log(Level.SEVERE, null, ex);
         }
