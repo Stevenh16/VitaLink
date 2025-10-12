@@ -31,12 +31,14 @@ public class UsuarioRepositorio {
             int rowsAffected;
             int idRol = obtenerIdRolPorNombre(usuario.getRol());
             try (Connection c = conectarBaseDeDatos()) {
-                PreparedStatement st = c.prepareStatement("INSERT INTO usuarios (id,id_rol,nombre,correo,contrasenia) VALUES(?,?,?,?,?)");
-                st.setInt(1,idRol);
-                st.setString(2, usuario.getNombre());
-                st.setString(3, usuario.getCorreo());
-                st.setString(4, usuario.getContrasenia());
-                rowsAffected = st.executeUpdate();
+                try (PreparedStatement st = c.prepareStatement("INSERT INTO usuarios (id,id_rol,nombre,correo,contrasenia) VALUES(?,?,?,?,?)")) {
+                    st.setInt(1, usuario.getId());
+                    st.setInt(2,idRol);
+                    st.setString(3, usuario.getNombre());
+                    st.setString(4, usuario.getCorreo());
+                    st.setString(5, usuario.getContrasenia());
+                    rowsAffected = st.executeUpdate();
+                }
                 System.out.println(rowsAffected + " row(s) inserted.");
             }
             return rowsAffected > 0;
@@ -49,8 +51,7 @@ public class UsuarioRepositorio {
     public Usuario obtenerUsuarioId(int id){
         try{
             ResultSet rs;
-            try (Connection c = conectarBaseDeDatos()) {
-                Statement st = c.createStatement();
+            try (Connection c = conectarBaseDeDatos(); Statement st = c.createStatement()) {
                 rs = st.executeQuery("SELECT u.nombre, u.apellido, u.correo, u.contrasenia, r.nombre AS rol FROM usuarios AS u JOIN roles AS r ON r.id = u.id_rol WHERE u.id ="+id);
             }
             return UsuarioMapper.toUsuario(rs);
@@ -90,6 +91,7 @@ public class UsuarioRepositorio {
             ResultSet rs;
             try (Connection c = conectarBaseDeDatos()) {
                 Statement st = c.createStatement();
+                st.close();
                 rs = st.executeQuery("SELECT id FROM usuarios WHERE correo = '"+correo+"'");
             }
             return rs.next();
@@ -104,6 +106,7 @@ public class UsuarioRepositorio {
             ResultSet rs;
             try (Connection c = conectarBaseDeDatos()) {
                 Statement st = c.createStatement();
+                st.close();
                 rs = st.executeQuery("SELECT id FROM usuarios WHERE correo = '"+correo+"' AND contrasenia = '"+contrasenia+"'");
             }
             return rs.next();
@@ -113,11 +116,43 @@ public class UsuarioRepositorio {
         return false;
     }
     
+    public ArrayList<Usuario> obtenerTodos(){
+        ResultSet rs;
+        try (Connection c = conectarBaseDeDatos()){
+            Statement st = c.createStatement();
+            st.close();
+            rs = st.executeQuery("SELECT * FROM usuarios");
+            return UsuarioMapper.toListUsuarios(rs);
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UsuarioRepositorio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return new ArrayList<>();
+    }
+    
+    public boolean eliminar(int id){
+        boolean borro = false;
+        try(Connection c = conectarBaseDeDatos()){
+            ResultSet rs;
+            Statement st = c.createStatement();
+            rs = st.executeQuery("SELECT * FROM usuarios WHERE id = "+id);
+            if(rs.next()){
+                rs.deleteRow();
+                rs.close();
+                st.close();
+                return !borro;
+            }
+        } catch (ClassNotFoundException | SQLException ex) {
+            Logger.getLogger(UsuarioRepositorio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return borro;
+    }
+    
     public int obtenerIdRolPorNombre(String nombre){
         try{
             ResultSet rs;
             try (Connection c = conectarBaseDeDatos()) {
                 Statement st = c.createStatement();
+                st.close();
                 rs = st.executeQuery("SELECT id FROM roles WHERE nombre = '"+nombre+"'");
             }
             return rs.getInt("id");
@@ -131,13 +166,13 @@ public class UsuarioRepositorio {
         ArrayList<String> roles = new ArrayList<>();
         try{
             ResultSet rs;
-            try (Connection c = conectarBaseDeDatos()) {
-                Statement st = c.createStatement();
+            try (Connection c = conectarBaseDeDatos(); Statement st = c.createStatement()) {
                 rs = st.executeQuery("SELECT nombre FROM roles");
             }
             do{
                 roles.add(rs.getString("nombre"));
             }while(rs.next());
+            rs.close();
         } catch (SQLException | ClassNotFoundException ex){
             Logger.getLogger(UsuarioRepositorio.class.getName()).log(Level.SEVERE, null, ex);
         }
