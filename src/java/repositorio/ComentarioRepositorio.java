@@ -23,7 +23,6 @@ public class ComentarioRepositorio {
     
     public ResultSet obtenerTodosPorIdCampaña(int id){
         try{
-            ResultSet rs;
             try (Connection c = conectarBaseDeDatos(); Statement st = c.createStatement()) {
                 return st.executeQuery("SELECT id, fecha, contenido, foto FROM comentarios WHERE id_campaña = "+id);
             }

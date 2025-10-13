@@ -14,10 +14,6 @@ import modelo.Campaña;
  * @author Steven
  */
 public class CampañaRepositorio {
-    private UsuarioRepositorio usuarioRepositorio;
-    private DonacionRepositorio donacionRepositorio;
-    private ComentarioRepositorio comentarioRepositorio;
-    private TratamientoRepositorio tratamientoRepositorio;
     
     
     public Connection conectarBaseDeDatos() throws ClassNotFoundException, SQLException{
@@ -105,6 +101,20 @@ public class CampañaRepositorio {
             Logger.getLogger(ComentarioRepositorio.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+    }
+    
+    public boolean editarCampaña(Campaña campaña, int id){
+        String sql = "UPDATE campañas SET fecha_fin = ? WHERE id = ?";
+        try (Connection c = conectarBaseDeDatos(); PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, campaña.getFechaFin().toString());
+            ps.setInt(2, id);
+
+            int filas = ps.executeUpdate();
+            return filas > 0;
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(ComentarioRepositorio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
     public int obtenerIdEstadoPorNombre(String estado) {
