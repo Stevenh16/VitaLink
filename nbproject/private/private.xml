@@ -3,8 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/controlador/UsuarioServlet.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/repositorio/ComentarioRepositorio.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/index.html</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/login.html</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/META-INF/context.xml</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/register.html</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/servicios/CampañaServicio.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/repositorio/CampañaRepositorio.java</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/servicios/implementaciones/CampañaServicioImplementacion.java</file>
         </group>
     </open-files>
 </project-private>
