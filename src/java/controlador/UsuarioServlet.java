@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelo.Usuario;
-import repositorio.UsuarioRepositorio;
+import servicios.implementaciones.UsuarioServicioImplementacion;
 
 /**
  *
@@ -99,10 +99,10 @@ public class UsuarioServlet extends HttpServlet {
     private void login(HttpServletRequest request, HttpServletResponse response) {
         String correo = request.getParameter("correo");
         String contrasenia = request.getParameter("contrasenia");
-        UsuarioRepositorio repositorio = new UsuarioRepositorio();
+        UsuarioServicioImplementacion servicio = new UsuarioServicioImplementacion();
         
         try{
-            if(repositorio.loginValido(correo, contrasenia)){
+            if(servicio.loginValido(correo, contrasenia)){
                 response.getWriter().println("<h2>Bienvenido, " + correo + "</h2>");
             }else{
                 response.getWriter().println("<h2>Correo o contraseña incorrectos</h2>");
@@ -120,10 +120,10 @@ public class UsuarioServlet extends HttpServlet {
                 request.getParameter("correo"),
                 request.getParameter("contrasenia")
         );
-        UsuarioRepositorio repositorio = new UsuarioRepositorio();
+        UsuarioServicioImplementacion servicio = new UsuarioServicioImplementacion();
         
         try{
-            if(repositorio.crearUsuario(usuario)){
+            if(servicio.crearUsuario(usuario)){
                 response.getWriter().println("<h2>Usuario registrado: " + usuario + "</h2>");
             }else{
                 response.getWriter().println("<h2>Contraseña diferentes o correo ya registrado</h2>");

@@ -4,45 +4,40 @@
  */
 package repositorio;
 
-import mapper.DonacionMapper;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import modelo.Campaña;
 import modelo.Donacion;
-import modelo.Usuario;
 
 /**
  *
  * @author Steven
  */
 public class DonacionRepositorio {
-    private UsuarioRepositorio usuarioRepositorio;
-    private CampañaRepositorio campañaRepositorio;
 
-    private int obtenerIdtipoPorNombre(String tipo) {
+    public DonacionRepositorio() {
+    }
+
+    private Connection conectarBaseDeDatos() throws ClassNotFoundException, SQLException{
+        Class.forName("org.postgresql.Driver");
+        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/VitaLink","postgres","1605");
+    }
+
+    public int obtenerIdtipoPorNombre(String tipo) {
         try (Connection c = conectarBaseDeDatos(); Statement st = c.createStatement()) {
-                ResultSet rs = st.executeQuery("SELECT id FROM tipo_donaciones WHERE nombre = '"+tipo+"'");
-                if(rs.next()){
-                    return rs.getInt("id");
-                }
+            ResultSet rs = st.executeQuery("SELECT id FROM tipo_donaciones WHERE nombre = '"+tipo+"'");
+            if(rs.next()){
+                return rs.getInt("id");
+            }
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DonacionRepositorio.class.getName()).log(Level.SEVERE, null, ex);
         }
         return 0;
     }
-    
-    
-    public Connection conectarBaseDeDatos() throws ClassNotFoundException, SQLException{
-        Class.forName("org.postgresql.Driver");
-        return DriverManager.getConnection("jdbc:postgresql://localhost:5432/VitaLink","postgres","1605");
-    }
-    
-    public boolean crear(Donacion donacion){
+
+    public boolean crear(Donacion donacion, int idTipo){
         try{
             int rowsAffected;
-            int idTipo = obtenerIdtipoPorNombre(donacion.getTipo());
             try (Connection c = conectarBaseDeDatos()) {
                 try (PreparedStatement st = c.prepareStatement("INSERT INTO donaciones (id,id_campaña,id_tipo,id_donante,cantidad,fecha) VALUES(?,?,?,?,?)")) {
                     st.setInt(1, donacion.getId());
@@ -61,93 +56,55 @@ public class DonacionRepositorio {
         return false;
     }
     
-    public Donacion obtenerPorId(int id){
-        try{
-            ResultSet rs;
-            try (Connection c = conectarBaseDeDatos()) {
-                PreparedStatement ps = c.prepareStatement(
-                        "SELECT "
-                        + "d.id, "
-                        + "d.id_campaña, "
-                        + "d.id_donante, "
-                        + "d.cantidad, "
-                        + "d.fecha, "
-                        + "t.nombre AS tipo "
-                        + "FROM donaciones AS d "
-                        + "JOIN tipo_donaciones AS t ON d.id_tipo = t.id "
-                        + "WHERE d.id = ? "
-                );
-                ps.setInt(1, id);
-                rs = ps.executeQuery();
-                
-                Usuario usuario = usuarioRepositorio.obtenerUsuarioId(rs.getInt("id_donante"));
-                Campaña campaña = campañaRepositorio.buscarPorIdSinDonaciones(rs.getInt("id_campaña"));
-                return DonacionMapper.toDonacion(rs, campaña, usuario);
-            }
+    public ResultSet obtenerPorId(int id){
+        try (Connection c = conectarBaseDeDatos()) {
+            PreparedStatement ps = c.prepareStatement(
+                    "SELECT "
+                      + "d.id, "
+                      + "d.id_campaña, "
+                      + "d.id_donante, "
+                      + "d.cantidad, "
+                      + "d.fecha, "
+                      + "t.nombre AS tipo "
+                      + "FROM donaciones AS d "
+                      + "JOIN tipo_donaciones AS t ON d.id_tipo = t.id "
+                      + "WHERE d.id = ? "
+            );
+            ps.setInt(1, id);
+            return ps.executeQuery();
         } catch (SQLException | ClassNotFoundException ex){
             Logger.getLogger(DonacionRepositorio.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
     
-    public Donacion obtenerPorIdSinCampaña(int id){
-        try{
-            ResultSet rs;
-            try (Connection c = conectarBaseDeDatos()) {
-                PreparedStatement ps = c.prepareStatement(
-                        "SELECT "
-                        + "d.id, "
-                        + "d.id_donante, "
-                        + "d.cantidad, "
-                        + "d.fecha, "
-                        + "t.nombre AS tipo "
-                        + "FROM donaciones AS d "
-                        + "JOIN tipo_donaciones AS t ON d.id_tipo = t.id "
-                        + "WHERE d.id = ? "
-                );
-                ps.setInt(1, id);
-                rs = ps.executeQuery();
-                
-                Usuario usuario = usuarioRepositorio.obtenerUsuarioId(rs.getInt("id_donante"));
-                return DonacionMapper.toDonacion(rs, null, usuario);
-            }
+    public ResultSet obtenerPorIdSinCampaña(int id){
+        try (Connection c = conectarBaseDeDatos()) {
+            PreparedStatement ps = c.prepareStatement(
+                    "SELECT "
+                     + "d.id, "
+                     + "d.id_donante, "
+                     + "d.cantidad, "
+                     + "d.fecha, "
+                     + "t.nombre AS tipo "
+                     + "FROM donaciones AS d "
+                     + "JOIN tipo_donaciones AS t ON d.id_tipo = t.id "
+                     + "WHERE d.id = ? "
+            );
+            ps.setInt(1, id);
+            return ps.executeQuery();
         } catch (SQLException | ClassNotFoundException ex){
             Logger.getLogger(DonacionRepositorio.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
     
-    public ArrayList<Donacion> obtenerTodos(){
-        ArrayList<Donacion> donaciones = new ArrayList<>();
-        try{
-            ResultSet rs;
-            try (Connection c = conectarBaseDeDatos(); Statement st = c.createStatement()) {
-                rs = st.executeQuery("SELECT id FROM donaciones");
-            }
-            do{
-                donaciones.add(obtenerPorId(rs.getInt("id")));
-            }while(rs.next());
-            rs.close();
+    public ResultSet obtenerTodos(){
+        try (Connection c = conectarBaseDeDatos(); Statement st = c.createStatement()) {
+            return st.executeQuery("SELECT id FROM donaciones");
         } catch (SQLException | ClassNotFoundException ex){
             Logger.getLogger(DonacionRepositorio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return donaciones;
-    }
-    
-    public ArrayList<Donacion> obtenerTodosPorIdCampaña(int id){
-        ArrayList<Donacion> donaciones = new ArrayList<>();
-        try{
-            ResultSet rs;
-            try (Connection c = conectarBaseDeDatos(); Statement st = c.createStatement()) {
-                rs = st.executeQuery("SELECT id FROM donaciones WHERE id_campaña = "+id);
-            }
-            do{
-                donaciones.add(obtenerPorIdSinCampaña(rs.getInt("id")));
-            }while(rs.next());
-            rs.close();
-        } catch (SQLException | ClassNotFoundException ex){
-            Logger.getLogger(DonacionRepositorio.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return donaciones;
+        return null;
     }
 }
