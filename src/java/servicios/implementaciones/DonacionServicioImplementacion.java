@@ -18,7 +18,7 @@ public class DonacionServicioImplementacion implements DonacionServicio {
     private final CampañaServicioImplementacion campañaServicio = new CampañaServicioImplementacion();
     private final UsuarioServicioImplementacion usuarioServicio = new UsuarioServicioImplementacion();
 
-    DonacionServicioImplementacion() {}
+    public DonacionServicioImplementacion() {}
 
     @Override
     public int obtenerIdTipoPorNombre(String tipo) {

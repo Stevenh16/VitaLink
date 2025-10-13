@@ -72,12 +72,7 @@ public class CampañaServicioImplementacion implements CampañaServicio {
 
     @Override
     public boolean editarCampaña(int id, Campaña campaña) {
-        return false;
-    }
-
-    @Override
-    public boolean existeCampañaCorreo(String correo) {
-        return false;
+        return campañaRepositorio.editarCampaña(campaña, id);
     }
 
     @Override
@@ -102,20 +97,5 @@ public class CampañaServicioImplementacion implements CampañaServicio {
         }
         return false;
     }
-
-    @Override
-    public ArrayList<Donacion> obtenerDonaciones() {
-        return null;
-    }
-
-    @Override
-    public ArrayList<Comentario> obtenerComentarios() {
-        return null;
-    }
-
-    @Override
-    public ArrayList<Tratamiento> obtenerTratamientos() {
-        return null;
-    }
-
+    
 }

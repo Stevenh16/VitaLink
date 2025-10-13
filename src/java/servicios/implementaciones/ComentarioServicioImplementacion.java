@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 public class ComentarioServicioImplementacion implements ComentarioServicio {
     private final ComentarioRepositorio repositorio = new ComentarioRepositorio();
 
+    @Override
     public ArrayList<Comentario> obtenerTodosPorIdCampaña(int id) {
         ArrayList<Comentario> comentarios = new ArrayList<>();
         try(ResultSet rs = repositorio.obtenerTodosPorIdCampaña(id)){
