@@ -16,20 +16,16 @@ import java.util.logging.Logger;
  * @author Steven
  */
 public class EntidadSaludRepositorio {
-    private final UsuarioRepositorio usuarioRepositorio;
 
-    public EntidadSaludRepositorio() {
-        this.usuarioRepositorio = new UsuarioRepositorio();
-    }
+    public EntidadSaludRepositorio() {}
     
     public Connection conectarBaseDeDatos() throws ClassNotFoundException, SQLException{
         Class.forName("org.postgresql.Driver");
         return DriverManager.getConnection("jdbc:postgresql://localhost:5432/VitaLink","postgres","1605");
     }
     
-    public EntidadSalud obtenerPorId(int id){
+    public ResultSet obtenerPorId(int id){
         try{
-            ResultSet rs;
             try (Connection c = conectarBaseDeDatos()) {
                 PreparedStatement ps = c.prepareStatement(
                         "SELECT "
@@ -46,10 +42,7 @@ public class EntidadSaludRepositorio {
                         + "WHERE e.id = ? "
                 );
                 ps.setInt(1, id);
-                rs = ps.executeQuery();
-                
-                Usuario usuario = usuarioRepositorio.obtenerUsuarioId(rs.getInt("id_usuario"));
-                return EntidadSaludMapper.toEntidadSalud(rs, usuario);
+               return ps.executeQuery();
             }
         } catch (SQLException | ClassNotFoundException ex){
             Logger.getLogger(EntidadSaludRepositorio.class.getName()).log(Level.SEVERE, null, ex);

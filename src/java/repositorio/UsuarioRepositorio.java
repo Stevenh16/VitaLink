@@ -4,9 +4,7 @@
  */
 package repositorio;
 
-import mapper.UsuarioMapper;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelo.Usuario;
@@ -26,10 +24,9 @@ public class UsuarioRepositorio {
         return DriverManager.getConnection("jdbc:postgresql://localhost:5432/VitaLink","postgres","1605");
     }
     
-    public boolean crearUsuario(Usuario usuario){
+    public boolean crearUsuario(Usuario usuario, int idRol){
         try{
             int rowsAffected;
-            int idRol = obtenerIdRolPorNombre(usuario.getRol());
             try (Connection c = conectarBaseDeDatos()) {
                 try (PreparedStatement st = c.prepareStatement("INSERT INTO usuarios (id,id_rol,nombre,correo,contrasenia) VALUES(?,?,?,?,?)")) {
                     st.setInt(1, usuario.getId());
@@ -48,40 +45,34 @@ public class UsuarioRepositorio {
         return false;
     }
     
-    public Usuario obtenerUsuarioId(int id){
+    public ResultSet obtenerUsuarioId(int id){
         try{
             ResultSet rs;
             try (Connection c = conectarBaseDeDatos(); Statement st = c.createStatement()) {
                 rs = st.executeQuery("SELECT u.nombre, u.apellido, u.correo, u.contrasenia, r.nombre AS rol FROM usuarios AS u JOIN roles AS r ON r.id = u.id_rol WHERE u.id ="+id);
             }
-            return UsuarioMapper.toUsuario(rs);
+            return rs;
         } catch (SQLException | ClassNotFoundException ex){
             Logger.getLogger(UsuarioRepositorio.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
     
-    public boolean editarUsuario(int id, Usuario usuario){
-        Usuario usuarioV = obtenerUsuarioId(id);
-        if(usuarioV!=null){
-            try{
-                int rowsAffected;
-                int idRol = obtenerIdRolPorNombre(usuario.getRol());
-                try (Connection c = conectarBaseDeDatos()) {
-                    PreparedStatement st = c.prepareStatement("INSERT INTO usuarios (id_rol,nombre,correo,contrasenia) VALUES(?,?,?,?) WHERE id = "+usuario.getId());
-                    st.setInt(1,usuario.getId());
-                    st.setInt(2,idRol);
-                    st.setString(3, usuario.getNombre());
-                    st.setString(4, usuario.getCorreo());
-                    st.setString(5, usuario.getContrasenia());
-                    rowsAffected = st.executeUpdate();
-                    System.out.println(rowsAffected + " row(s) inserted.");
-                }
-                return rowsAffected > 0;
-            } catch (SQLException | ClassNotFoundException ex) {
-                Logger.getLogger(UsuarioRepositorio.class.getName()).log(Level.SEVERE, null, ex);
+    public boolean editarUsuario(int id, Usuario usuario, int idRol){
+        try{
+            int rowsAffected;
+            try (Connection c = conectarBaseDeDatos()) {
+                PreparedStatement st = c.prepareStatement("INSERT INTO usuarios (id_rol,nombre,correo,contrasenia) VALUES(?,?,?,?) WHERE id = "+id);
+                st.setInt(1,idRol);
+                st.setString(2, usuario.getNombre());
+                st.setString(3, usuario.getCorreo());
+                st.setString(4, usuario.getContrasenia());
+                rowsAffected = st.executeUpdate();
+                System.out.println(rowsAffected + " row(s) inserted.");
             }
-            
+            return rowsAffected > 0;
+        } catch (SQLException | ClassNotFoundException ex) {
+            Logger.getLogger(UsuarioRepositorio.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
@@ -116,17 +107,17 @@ public class UsuarioRepositorio {
         return false;
     }
     
-    public ArrayList<Usuario> obtenerTodos(){
+    public ResultSet obtenerTodos(){
         ResultSet rs;
         try (Connection c = conectarBaseDeDatos()){
             Statement st = c.createStatement();
             st.close();
             rs = st.executeQuery("SELECT * FROM usuarios");
-            return UsuarioMapper.toListUsuarios(rs);
+            return rs;
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(UsuarioRepositorio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return new ArrayList<>();
+        return null;
     }
     
     public boolean eliminar(int id){
@@ -162,20 +153,16 @@ public class UsuarioRepositorio {
         return 0;
     }
     
-    public ArrayList<String> obtenerTodosLosRoles() {
-        ArrayList<String> roles = new ArrayList<>();
+    public ResultSet obtenerTodosLosRoles() {
         try{
             ResultSet rs;
             try (Connection c = conectarBaseDeDatos(); Statement st = c.createStatement()) {
                 rs = st.executeQuery("SELECT nombre FROM roles");
             }
-            do{
-                roles.add(rs.getString("nombre"));
-            }while(rs.next());
-            rs.close();
+            return rs;
         } catch (SQLException | ClassNotFoundException ex){
             Logger.getLogger(UsuarioRepositorio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return roles;
+        return null;
     }
 }

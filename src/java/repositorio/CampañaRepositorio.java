@@ -4,17 +4,10 @@
  */
 package repositorio;
 
-import mapper.CampañaMapper;
 import java.sql.*;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelo.Campaña;
-import modelo.Comentario;
-import modelo.Donacion;
-import modelo.Tratamiento;
-import modelo.Usuario;
 
 /**
  *
@@ -32,14 +25,13 @@ public class CampañaRepositorio {
         return DriverManager.getConnection("jdbc:postgresql://localhost:5432/VitaLink","postgres","1605");
     }
     
-    public boolean crear(Campaña campaña){
+    public boolean crear(Campaña campaña, int idEstado){
         try{
             int rowsAffected;
-            int idEstado = obtenerIdEstadoPorNombre(campaña.getEstado());
             try (Connection c = conectarBaseDeDatos()) {
                 try (PreparedStatement st = c.prepareStatement("INSERT INTO campañas (id,id_estado,id_donatario,descripcion,fecha_inicio) VALUES(?,?,?,?,?)")) {
                     st.setInt(1, campaña.getId());
-                    st.setInt(2,idEstado);
+                    st.setInt(2, idEstado);
                     st.setInt(3, campaña.getDonatario().getId());
                     st.setString(4, campaña.getDescripcion());
                     st.setString(5, campaña.getFechaInicio().toString());
@@ -54,9 +46,8 @@ public class CampañaRepositorio {
         return false;
     }
     
-    public Campaña buscarPorId(int id){
+    public ResultSet buscarPorId(int id){
         try{
-            ResultSet rs;
             try (Connection c = conectarBaseDeDatos()) {
                 PreparedStatement ps = c.prepareStatement(
                     "SELECT "
@@ -71,13 +62,7 @@ public class CampañaRepositorio {
                     + "WHERE c.id = ?"
                 );
                 ps.setInt(1, id);
-                rs = ps.executeQuery();
-                
-                Usuario usuario = usuarioRepositorio.obtenerUsuarioId(rs.getInt("id_donatario"));
-                ArrayList<Donacion> donaciones = donacionRepositorio.obtenerTodosPorIdCampaña(id);
-                ArrayList<Comentario> comentarios = comentarioRepositorio.obtenerTodosPorIdCampaña(id);
-                ArrayList<Tratamiento> tratamientos = tratamientoRepositorio.obtenerTodosPorIdCampaña(id);
-                return CampañaMapper.toCampaña(rs, usuario, donaciones, comentarios, tratamientos);
+                return ps.executeQuery();
             }
         } catch (SQLException | ClassNotFoundException ex){
             Logger.getLogger(UsuarioRepositorio.class.getName()).log(Level.SEVERE, null, ex);
@@ -85,9 +70,8 @@ public class CampañaRepositorio {
         return null;
     }
     
-    public Campaña buscarPorIdSinDonaciones(int id){
+    public ResultSet buscarPorIdSinDonaciones(int id){
         try{
-            ResultSet rs;
             try (Connection c = conectarBaseDeDatos()) {
                 PreparedStatement ps = c.prepareStatement(
                     "SELECT "
@@ -102,12 +86,7 @@ public class CampañaRepositorio {
                     + "WHERE c.id = ?"
                 );
                 ps.setInt(1, id);
-                rs = ps.executeQuery();
-                
-                Usuario usuario = usuarioRepositorio.obtenerUsuarioId(rs.getInt("id_donatario"));
-                ArrayList<Comentario> comentarios = comentarioRepositorio.obtenerTodosPorIdCampaña(id);
-                ArrayList<Tratamiento> tratamientos = tratamientoRepositorio.obtenerTodosPorIdCampaña(id);
-                return CampañaMapper.toCampaña(rs, usuario, null, comentarios, tratamientos);
+                return ps.executeQuery();
             }
         } catch (SQLException | ClassNotFoundException ex){
             Logger.getLogger(UsuarioRepositorio.class.getName()).log(Level.SEVERE, null, ex);
@@ -115,30 +94,17 @@ public class CampañaRepositorio {
         return null;
     }
     
-    public ArrayList<Campaña> obtenerTodas() {
-        ArrayList<Campaña> campañas = new ArrayList<>();
+    public ResultSet obtenerTodas() {
         try{
             ResultSet rs;
             try (Connection c = conectarBaseDeDatos(); Statement st = c.createStatement()) {
                 rs = st.executeQuery("SELECT id FROM campañas");
+                return rs;
             }
-            do{
-                campañas.add(buscarPorId(rs.getInt("id")));
-            }while(rs.next());
-            rs.close();
         } catch (SQLException | ClassNotFoundException ex){
             Logger.getLogger(ComentarioRepositorio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return campañas;
-    }
-    
-    public boolean finalizarPorId(int id){
-        Campaña campaña = buscarPorId(id);
-        if(campaña!=null){
-            campaña.setFechaFin(LocalDateTime.now());
-            return true;
-        }
-        return false;
+        return null;
     }
 
     public int obtenerIdEstadoPorNombre(String estado) {
