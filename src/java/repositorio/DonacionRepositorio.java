@@ -5,6 +5,7 @@
 package repositorio;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modelo.Donacion;
@@ -39,12 +40,13 @@ public class DonacionRepositorio {
         try{
             int rowsAffected;
             try (Connection c = conectarBaseDeDatos()) {
-                try (PreparedStatement st = c.prepareStatement("INSERT INTO donaciones (id,id_campaña,id_tipo,id_donante,cantidad,fecha) VALUES(?,?,?,?,?)")) {
+                try (PreparedStatement st = c.prepareStatement("INSERT INTO donaciones (id,id_campaña,id_tipo,id_donante,cantidad,fecha) VALUES(?,?,?,?,?,?)")) {
                     st.setInt(1, donacion.getId());
                     st.setInt(2, donacion.getCampaña().getId());
                     st.setInt(3, idTipo);
                     st.setInt(4, donacion.getDonante().getId());
-                    st.setString(5, donacion.getFecha().toString());
+                    st.setString(5, donacion.getCantidad());
+                    st.setDate(6, Date.valueOf(donacion.getFecha().toLocalDate()));
                     rowsAffected = st.executeUpdate();
                 }
                 System.out.println(rowsAffected + " row(s) inserted.");

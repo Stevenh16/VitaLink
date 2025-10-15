@@ -1,7 +1,6 @@
 package controlador;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -11,6 +10,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import modelo.Usuario;
 import servicios.implementaciones.UsuarioServicioImplementacion;
@@ -31,67 +31,59 @@ public class UsuarioServlet extends HttpServlet {
         String action = request.getParameter("action");
         UsuarioServicioImplementacion servicio = new UsuarioServicioImplementacion();
 
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-
+        try {
             if (action == null) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no especificada");
                 return;
             }
 
             switch (action) {
-                case "getUser" ->  {
+                case "getUser" -> {
                     int userId = Integer.parseInt(request.getParameter("id"));
                     Usuario usuario = servicio.obtenerUsuarioId(userId);
-                    if (usuario != null) {
-                        out.println("<h3>Usuario encontrado:</h3>");
-                        out.println("<p>" + usuario + "</p>");
-                    } else {
-                        out.println("<h3>No se encontró usuario con id " + userId + "</h3>");
-                    }
+                    request.setAttribute("usuario", usuario);
+                    request.getRequestDispatcher("/pages/usuario/usuario-detalle.jsp").forward(request, response);
                 }
 
-                case "getAll" ->  {
+                case "getAll" -> {
                     ArrayList<Usuario> usuarios = servicio.obtenerTodos();
-                    out.println("<h3>Lista de usuarios:</h3>");
-                    for (Usuario u : usuarios) {
-                        out.println("<p>" + u + "</p>");
-                    }
+                    request.setAttribute("usuarios", usuarios);
+                    request.getRequestDispatcher("/pages/usuario/usuario-lista.jsp").forward(request, response);
                 }
 
-                case "delete" ->  {
+                case "delete" -> {
                     int userId = Integer.parseInt(request.getParameter("id"));
-                    if (servicio.eliminar(userId)) {
-                        out.println("<h3>Usuario eliminado correctamente</h3>");
-                    } else {
-                        out.println("<h3>Error al eliminar usuario</h3>");
-                    }
+                    boolean eliminado = servicio.eliminar(userId);
+                    request.setAttribute("resultado", eliminado ? 
+                            "Usuario eliminado correctamente" : "Error al eliminar usuario");
+                    request.getRequestDispatcher("/pages/usuario/usuario-resultado.jsp").forward(request, response);
                 }
 
-                case "roles" ->  {
+                case "roles" -> {
                     ArrayList<String> roles = servicio.obtenerTodosLosRoles();
-                    out.println("<h3>Roles disponibles:</h3>");
-                    for (String rol : roles) {
-                        out.println("<p>" + rol + "</p>");
-                    }
+                    request.setAttribute("roles", roles);
+                    request.getRequestDispatcher("/pages/usuario/usuario-roles.jsp").forward(request, response);
                 }
 
-                case "checkEmail" ->  {
+                case "checkEmail" -> {
                     String correo = request.getParameter("correo");
                     boolean existe = servicio.existeUsuarioCorreo(correo);
-                    out.println("<h3>El correo " + correo + (existe ? " ya está registrado." : " está disponible.") + "</h3>");
+                    request.setAttribute("mensaje", "El correo " + correo +
+                            (existe ? " ya está registrado." : " está disponible."));
+                    request.getRequestDispatcher("/pages/usuario/usuario-resultado.jsp").forward(request, response);
                 }
 
-                case "getRoleId" ->  {
+                case "getRoleId" -> {
                     String nombreRol = request.getParameter("rol");
                     int idRol = servicio.obtenerIdRolPorNombre(nombreRol);
-                    out.println("<h3>ID del rol '" + nombreRol + "': " + idRol + "</h3>");
+                    request.setAttribute("rolId", idRol);
+                    request.getRequestDispatcher("/pages/usuario/usuario-rol-id.jsp").forward(request, response);
                 }
 
                 default -> response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida: " + action);
             }
 
-        } catch (Exception ex) {
+        } catch (ServletException | IOException | NumberFormatException ex) {
             Logger.getLogger(UsuarioServlet.class.getName()).log(Level.SEVERE, null, ex);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error procesando la solicitud");
         }
@@ -103,42 +95,47 @@ public class UsuarioServlet extends HttpServlet {
         String action = request.getParameter("action");
         UsuarioServicioImplementacion servicio = new UsuarioServicioImplementacion();
 
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-
+        try {
             if (action == null) {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no especificada");
                 return;
             }
 
             switch (action) {
-                case "login" ->  {
+                case "login" -> {
                     String correo = request.getParameter("correo");
                     String contrasenia = request.getParameter("contrasenia");
-                    if (servicio.loginValido(correo, contrasenia)) {
-                        out.println("<h2>Bienvenido, " + correo + "</h2>");
+                    Usuario usuario = servicio.loginValido(correo, contrasenia);
+                    if (usuario!=null) {
+                        HttpSession session = request.getSession();
+                        session.setAttribute("id", usuario.getId());
+                        session.setAttribute("correo", usuario.getCorreo());
+                        session.setAttribute("rol", usuario.getRol());
+                        request.getRequestDispatcher("/pages/home.jsp").forward(request, response);
                     } else {
-                        out.println("<h2>Correo o contraseña incorrectos</h2>");
+                        request.setAttribute("mensaje", "Correo o contraseña incorrectos");
+                        request.getRequestDispatcher("/pages/usuario/usuario-error.jsp").forward(request, response);
                     }
                 }
 
-                case "register" ->  {
+                case "register" -> {
                     Usuario usuario = new Usuario(
                             id++,
                             request.getParameter("rol"),
                             request.getParameter("nombre"),
                             request.getParameter("correo"),
-                            request.getParameter("contrasenia")
+                            request.getParameter("contrasena")
                     );
-                    if (servicio.crearUsuario(usuario)) {
-                        out.println("<h2>Usuario registrado correctamente:</h2>");
-                        out.println("<p>" + usuario + "</p>");
-                    } else {
-                        out.println("<h2>No se pudo registrar el usuario. Verifica los datos.</h2>");
-                    }
+                    boolean creado = servicio.crearUsuario(usuario);
+
+                    request.setAttribute("mensaje", creado ?
+                            "Usuario registrado correctamente" :
+                            "No se pudo registrar el usuario. Verifica los datos.");
+                    request.setAttribute("usuario", usuario);
+                    request.getRequestDispatcher("/pages/usuario/usuario-resultado.jsp").forward(request, response);
                 }
 
-                case "edit" ->  {
+                case "edit" -> {
                     int userId = Integer.parseInt(request.getParameter("id"));
                     Usuario usuario = new Usuario(
                             userId,
@@ -147,17 +144,19 @@ public class UsuarioServlet extends HttpServlet {
                             request.getParameter("correo"),
                             request.getParameter("contrasenia")
                     );
-                    if (servicio.editarUsuario(userId, usuario)) {
-                        out.println("<h3>Usuario actualizado correctamente</h3>");
-                    } else {
-                        out.println("<h3>Error al actualizar usuario</h3>");
-                    }
+                    boolean actualizado = servicio.editarUsuario(userId, usuario);
+
+                    request.setAttribute("mensaje", actualizado ?
+                            "Usuario actualizado correctamente" :
+                            "Error al actualizar usuario");
+                    request.setAttribute("usuario", usuario);
+                    request.getRequestDispatcher("/pages/usuario/usuario-resultado.jsp").forward(request, response);
                 }
 
                 default -> response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida: " + action);
             }
 
-        } catch (Exception ex) {
+        } catch (ServletException | IOException | NumberFormatException ex) {
             Logger.getLogger(UsuarioServlet.class.getName()).log(Level.SEVERE, null, ex);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error procesando la solicitud");
         }

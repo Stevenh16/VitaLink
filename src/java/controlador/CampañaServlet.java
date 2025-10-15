@@ -14,10 +14,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import servicios.UsuarioServicio;
+import servicios.implementaciones.UsuarioServicioImplementacion;
 
 @WebServlet("/CampañaServlet")
 public class CampañaServlet extends HttpServlet {
-
+    private static int idC = 0;
     private final CampañaServicio campañaServicio = new CampañaServicioImplementacion();
 
     @Override
@@ -31,6 +35,8 @@ public class CampañaServlet extends HttpServlet {
             case "listar" -> listarCampañas(request, response);
             case "ver" -> verCampaña(request, response);
             case "finalizar" -> finalizarCampaña(request, response);
+            case "formCrear" -> request.getRequestDispatcher("pages/campañas/crear.jsp").forward(request, response);
+            case "formFinalizar" -> request.getRequestDispatcher("pages/campañas/finalizar.jsp").forward(request, response);
             default -> listarCampañas(request, response);
         }
     }
@@ -40,9 +46,11 @@ public class CampañaServlet extends HttpServlet {
             throws ServletException, IOException {
 
         String action = request.getParameter("action");
-        if (action == null) action = "";
+        if (action == null){
+            action = "";
+        }
 
-        switch (action) {
+        switch (action.trim()) {
             case "crear" -> crearCampaña(request, response);
             default -> response.sendRedirect("CampañaServlet?action=listar");
         }
@@ -52,7 +60,7 @@ public class CampañaServlet extends HttpServlet {
             throws ServletException, IOException {
         ArrayList<Campaña> campañas = campañaServicio.obtenerTodas();
         request.setAttribute("campañas", campañas);
-        request.getRequestDispatcher("/campañas/listar.jsp").forward(request, response);
+        request.getRequestDispatcher("pages/campañas/listar.jsp").forward(request, response);
     }
 
     private void verCampaña(HttpServletRequest request, HttpServletResponse response)
@@ -61,7 +69,7 @@ public class CampañaServlet extends HttpServlet {
         Campaña campaña = campañaServicio.obtenerCampañaId(id);
         if (campaña != null) {
             request.setAttribute("campaña", campaña);
-            request.getRequestDispatcher("/campañas/ver.jsp").forward(request, response);
+            request.getRequestDispatcher("pages/campañas/detalleCampaña.jsp").forward(request, response);
         } else {
             response.sendRedirect("CampañaServlet?action=listar");
         }
@@ -71,10 +79,14 @@ public class CampañaServlet extends HttpServlet {
             throws ServletException, IOException {
         String titulo = request.getParameter("titulo");
         String descripcion = request.getParameter("descripcion");
-        Usuario donatario = (Usuario) request.getSession().getAttribute("usuario");
+        int idDonatario = (int) request.getSession().getAttribute("id");
+        getServletContext().log("ID de sesión: " + request.getSession().getAttribute("id"));
+        UsuarioServicio usuarioServicio = new UsuarioServicioImplementacion();
+        Usuario donatario = usuarioServicio.obtenerUsuarioId(idDonatario);
+        getServletContext().log("ID de sesión: " + donatario.toString());
         LocalDateTime fechaInicio = LocalDateTime.now();
 
-        Campaña nuevaCampaña = new Campaña(0, titulo, descripcion, "Activa", fechaInicio, donatario);
+        Campaña nuevaCampaña = new Campaña(++idC, titulo, descripcion, "ACTIVA", fechaInicio, donatario);
         boolean creada = campañaServicio.crearCampaña(nuevaCampaña);
 
         if (creada) {

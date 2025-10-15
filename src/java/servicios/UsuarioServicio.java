@@ -9,7 +9,7 @@ public interface UsuarioServicio {
     Usuario obtenerUsuarioId(int id);
     boolean editarUsuario(int id, Usuario usuario);
     boolean existeUsuarioCorreo(String correo);
-    boolean loginValido(String correo, String contrasenia);
+    Usuario loginValido(String correo, String contrasenia);
     ArrayList<Usuario> obtenerTodos();
     boolean eliminar(int id);
     int obtenerIdRolPorNombre(String nombre);

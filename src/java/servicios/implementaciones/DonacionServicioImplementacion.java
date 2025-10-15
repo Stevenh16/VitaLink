@@ -15,7 +15,7 @@ import java.util.logging.Logger;
 
 public class DonacionServicioImplementacion implements DonacionServicio {
     private final DonacionRepositorio repositorio = new  DonacionRepositorio();
-    private final CampañaServicioImplementacion campañaServicio = new CampañaServicioImplementacion();
+    private CampañaServicioImplementacion campañaServicio;
     private final UsuarioServicioImplementacion usuarioServicio = new UsuarioServicioImplementacion();
 
     public DonacionServicioImplementacion() {}
@@ -33,6 +33,7 @@ public class DonacionServicioImplementacion implements DonacionServicio {
 
     @Override
     public Donacion obtenerPorId(int id) {
+        campañaServicio = new CampañaServicioImplementacion();
         try(ResultSet rs = repositorio.obtenerPorId(id)){
             Campaña campaña =  campañaServicio.buscarPorIdSinDonaciones(rs.getInt("id_campaña"));
             Usuario usuario = usuarioServicio.obtenerUsuarioId(rs.getInt("id_donante"));
@@ -67,6 +68,7 @@ public class DonacionServicioImplementacion implements DonacionServicio {
         return donaciones;
     }
 
+    @Override
     public ArrayList<Donacion> obtenerTodosPorIdCampaña(int id) {
         ArrayList<Donacion> donaciones = new ArrayList<>();
         try(ResultSet rs = repositorio.obtenerTodos()){

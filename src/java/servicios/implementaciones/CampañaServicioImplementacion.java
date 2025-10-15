@@ -23,14 +23,13 @@ import java.util.logging.Logger;
 public class CampañaServicioImplementacion implements CampañaServicio {
     private final CampañaRepositorio campañaRepositorio;
     private final UsuarioServicioImplementacion usuarioServicio;
-    private final DonacionServicioImplementacion donacionServicio;
+    private DonacionServicioImplementacion donacionServicio;
     private final ComentarioServicioImplementacion comentarioServicio;
     private final TratamientoServicioImplementacion tratamientoServicio;
 
     public CampañaServicioImplementacion() {
         campañaRepositorio = new CampañaRepositorio();
         usuarioServicio = new UsuarioServicioImplementacion();
-        donacionServicio = new DonacionServicioImplementacion();
         comentarioServicio = new ComentarioServicioImplementacion();
         tratamientoServicio = new TratamientoServicioImplementacion();
     }
@@ -43,19 +42,32 @@ public class CampañaServicioImplementacion implements CampañaServicio {
 
     @Override
     public Campaña obtenerCampañaId(int id) {
-        return armarCampañaRespuesta(
-                campañaRepositorio.buscarPorId(id),
-                id, true);
+        Campaña campaña = campañaRepositorio.buscarPorId(id);
+        Usuario usuario = (Usuario) usuarioServicio.obtenerUsuarioId(campaña.getDonatario().getId());
+        //ArrayList<Comentario> comentarios = comentarioServicio.obtenerTodosPorIdCampaña(id);
+        //ArrayList<Tratamiento> tratamientos = tratamientoServicio.obtenerTodosPorIdCampania(id);
+        //ArrayList<Donacion> donaciones = donacionServicio.obtenerTodosPorIdCampaña(id);
+        campaña.setDonatario(usuario);
+        //campaña.setComentarios(comentarios);
+        //campaña.setTratamientos(tratamientos);
+        //campaña.setDonaciones(donaciones);
+        return campaña;
     }
 
     @Override
     public Campaña buscarPorIdSinDonaciones(int id){
-        return armarCampañaRespuesta(
-                campañaRepositorio.buscarPorIdSinDonaciones(id),
-                id, false);
+        Campaña campaña = campañaRepositorio.buscarPorIdSinDonaciones(id);
+        Usuario usuario = (Usuario) usuarioServicio.obtenerUsuarioId(campaña.getDonatario().getId());
+        ArrayList<Comentario> comentarios = comentarioServicio.obtenerTodosPorIdCampaña(id);
+        ArrayList<Tratamiento> tratamientos = tratamientoServicio.obtenerTodosPorIdCampania(id);
+        campaña.setDonatario(usuario);
+        campaña.setComentarios(comentarios);
+        campaña.setTratamientos(tratamientos);
+        return campaña;
     }
 
     private Campaña armarCampañaRespuesta(ResultSet rs, int id, boolean tieneDonacion){
+        donacionServicio = new DonacionServicioImplementacion();
         try {
             Usuario usuario = (Usuario) usuarioServicio.obtenerUsuarioId(rs.getInt("id_donatario"));
             ArrayList<Comentario> comentarios = comentarioServicio.obtenerTodosPorIdCampaña(id);
@@ -78,12 +90,9 @@ public class CampañaServicioImplementacion implements CampañaServicio {
     @Override
     public ArrayList<Campaña> obtenerTodas() {
         ArrayList<Campaña> campañas = new ArrayList<>();
-        try(ResultSet campañasRS = campañaRepositorio.obtenerTodas()) {
-            while (campañasRS.next()) {
-                campañas.add(obtenerCampañaId(campañasRS.getInt("id")));
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(UsuarioRepositorio.class.getName()).log(Level.SEVERE, null, ex);
+        ArrayList<Integer> campañasIds = campañaRepositorio.obtenerTodas();
+        for(Integer id : campañasIds){
+            campañas.add(obtenerCampañaId(id));
         }
         return campañas;
     }

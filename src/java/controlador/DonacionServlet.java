@@ -16,12 +16,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import servicios.implementaciones.UsuarioServicioImplementacion;
 
 @WebServlet("/DonacionServlet")
 public class DonacionServlet extends HttpServlet {
-
+    int i = 0;
     private final DonacionServicio donacionServicio = new DonacionServicioImplementacion();
     private final CampañaServicioImplementacion campañaServicio = new CampañaServicioImplementacion();
+    private final UsuarioServicioImplementacion usuarioServicio = new UsuarioServicioImplementacion();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -94,18 +96,17 @@ public class DonacionServlet extends HttpServlet {
 
         String tipo = request.getParameter("tipo");
         String cantidad = request.getParameter("cantidad");
-        String idCampañaStr = request.getParameter("idCampaña");
+        int idCampaña = Integer.parseInt(request.getParameter("idCampaña"));
+        int idUsuario = Integer.parseInt(request.getParameter("idDonante"));
+        
 
-        Usuario donante = (Usuario) request.getSession().getAttribute("usuario");
-        Campaña campaña = null;
-
-        if (idCampañaStr != null && !idCampañaStr.isEmpty()) {
-            int idCampaña = Integer.parseInt(idCampañaStr);
-            campaña = campañaServicio.obtenerCampañaId(idCampaña);
-        }
+        getServletContext().log("ID CAMPAÑA: " + idCampaña);
+        getServletContext().log("ID USUARIO: " + idUsuario);
+        Campaña campaña = campañaServicio.obtenerCampañaId(idCampaña);
+        Usuario donante = usuarioServicio.obtenerUsuarioId(idUsuario);
 
         Donacion donacion = new Donacion(
-                0,
+                ++i,
                 tipo,
                 cantidad,
                 LocalDateTime.now(),

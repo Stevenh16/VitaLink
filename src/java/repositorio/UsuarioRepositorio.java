@@ -27,6 +27,8 @@ public class UsuarioRepositorio {
     public boolean crearUsuario(Usuario usuario, int idRol){
         try{
             int rowsAffected;
+            Logger.getLogger(UsuarioRepositorio.class.getName()).log(Level.INFO, "REPOSITORIO : '{' idRol: {0}'}'", new Object[]{idRol});
+
             try (Connection c = conectarBaseDeDatos()) {
                 try (PreparedStatement st = c.prepareStatement("INSERT INTO usuarios (id,id_rol,nombre,correo,contrasenia) VALUES(?,?,?,?,?)")) {
                     st.setInt(1, usuario.getId());
@@ -45,13 +47,21 @@ public class UsuarioRepositorio {
         return false;
     }
     
-    public ResultSet obtenerUsuarioId(int id){
+    public Usuario obtenerUsuarioId(int id){
         try{
             ResultSet rs;
             try (Connection c = conectarBaseDeDatos(); Statement st = c.createStatement()) {
-                rs = st.executeQuery("SELECT u.nombre, u.apellido, u.correo, u.contrasenia, r.nombre AS rol FROM usuarios AS u JOIN roles AS r ON r.id = u.id_rol WHERE u.id ="+id);
+                rs = st.executeQuery("SELECT u.id, u.nombre, u.correo, u.contrasenia, r.nombre AS rol FROM usuarios AS u JOIN roles AS r ON r.id = u.id_rol WHERE u.id ="+id);
+                if (rs.next()) {
+                    return new Usuario(
+                        rs.getInt("id"),
+                        rs.getString("rol"),
+                        rs.getString("nombre"),
+                        rs.getString("correo"),
+                        rs.getString("contrasenia")
+                    );
+                }
             }
-            return rs;
         } catch (SQLException | ClassNotFoundException ex){
             Logger.getLogger(UsuarioRepositorio.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -92,19 +102,23 @@ public class UsuarioRepositorio {
         return false;
     }
     
-    public boolean loginValido(String correo, String contrasenia){
-        try{
-            ResultSet rs;
-            try (Connection c = conectarBaseDeDatos()) {
-                Statement st = c.createStatement();
-                st.close();
-                rs = st.executeQuery("SELECT id FROM usuarios WHERE correo = '"+correo+"' AND contrasenia = '"+contrasenia+"'");
-            }
-            return rs.next();
+    public Usuario loginValido(String correo, String contrasenia){
+        ResultSet rs;
+        try (Connection c = conectarBaseDeDatos()) {
+            Statement st = c.createStatement();
+            rs = st.executeQuery("SELECT u.id, r.nombre AS rol, u.nombre, u.correo, u.contrasenia  FROM usuarios AS u JOIN roles AS r ON u.id_rol = r.id WHERE correo = '" + correo + "' AND contrasenia = '" + contrasenia + "'");
+            rs.next();
+            return new Usuario(
+                        rs.getInt("id"),
+                        rs.getString("rol"),
+                        rs.getString("nombre"),
+                        rs.getString("correo"),
+                        rs.getString("contrasenia")
+                    );
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(UsuarioRepositorio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return false;
+        return null;
     }
     
     public ResultSet obtenerTodos(){
@@ -138,20 +152,27 @@ public class UsuarioRepositorio {
         return borro;
     }
     
-    public int obtenerIdRolPorNombre(String nombre){
-        try{
-            ResultSet rs;
-            try (Connection c = conectarBaseDeDatos()) {
-                Statement st = c.createStatement();
-                st.close();
-                rs = st.executeQuery("SELECT id FROM roles WHERE nombre = '"+nombre+"'");
+    public int obtenerIdRolPorNombre(String nombre) {
+        int id = 0;
+        String sql = "SELECT id FROM roles WHERE nombre = ?";
+
+        try (Connection c = conectarBaseDeDatos();
+             PreparedStatement ps = c.prepareStatement(sql)) {
+
+            ps.setString(1, nombre);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    id = rs.getInt("id");
+                }
             }
-            return rs.getInt("id");
-        } catch (SQLException | ClassNotFoundException ex){
+
+        } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(UsuarioRepositorio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return 0;
+
+        return id;
     }
+
     
     public ResultSet obtenerTodosLosRoles() {
         try{

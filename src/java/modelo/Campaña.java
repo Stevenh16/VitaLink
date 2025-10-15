@@ -35,6 +35,19 @@ public class Campaña {
         tratamientos = new ArrayList<>();
     }
 
+    public Campaña(int id, String titulo, String descripcion, String estado, LocalDateTime fechaInicio, LocalDateTime fechaFin, Usuario donatario) {
+        this.id = id;
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.estado = estado;
+        this.fechaInicio = fechaInicio;
+        this.fechaFin = fechaFin;
+        this.donatario = donatario;
+        donaciones = new ArrayList<>();
+        comentarios = new ArrayList<>();
+        tratamientos = new ArrayList<>();
+    }
+    
     @Override
     public String toString() {
         return "Campa\u00f1a{" + "id=" + id + ", titulo=" + titulo + ", descripcion=" + descripcion + ", estado=" + estado + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + ", donatario=" + donatario + ", donaciones=" + donaciones + ", comentarios=" + comentarios + ", tratamientos=" + tratamientos + '}';

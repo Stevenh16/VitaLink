@@ -23,6 +23,10 @@ public class Usuario {
         this.contrasenia = contrasenia;
     }
 
+    public Usuario(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "Usuario{" + "id=" + id + ", nombre=" + nombre + ", correo=" + correo + ", contrasenia=" + contrasenia + '}';
