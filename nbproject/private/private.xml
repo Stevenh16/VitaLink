@@ -3,38 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/controlador/UsuarioServlet.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/register.jsp</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/controlador/TratamientoServlet.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/servicios/UsuarioServicio.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/servicios/implementaciones/UsuarioServicioImplementacion.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/repositorio/UsuarioRepositorio.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/index.jsp</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/login.jsp</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/usuario/usuario-bienvenido.jsp</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/usuario/usuario-detalle.jsp</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/usuario/usuario-error.jsp</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/usuario/usuario-lista.jsp</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/usuario/usuario-resultado.jsp</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/usuario/usuario-rol-id.jsp</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/usuario/usuario-roles.jsp</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/home.jsp</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/mapper/UsuarioMapper.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/controlador/CampañaServlet.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/campañas/crear.jsp</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Campaña.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/repositorio/CampañaRepositorio.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/servicios/implementaciones/CampañaServicioImplementacion.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/servicios/implementaciones/DonacionServicioImplementacion.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/repositorio/DonacionRepositorio.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/repositorio/ComentarioRepositorio.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Comentario.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Donacion.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/campañas/listar.jsp</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/modelo/Usuario.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/controlador/DonacionServlet.java</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/donaciones/donar.jsp</file>
-            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/web/pages/campañas/detalleCampaña.jsp</file>
+            <file>file:/C:/Users/Steven/Documents/Estudio/Arquitectura%20de%20Software/VitaLink/src/java/controlador/ApiGatewayServlet.java</file>
         </group>
     </open-files>
 </project-private>
